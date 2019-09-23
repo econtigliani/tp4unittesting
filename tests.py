@@ -16,3 +16,20 @@ class ProductTest(unittest.TestCase):
         for elem in INVALID_PRICE:
             with self.assertRaises(ValueError):
                 product.price = elem
+
+
+class CartTest(unittest.TestCase):
+    def setUp(self):
+        self.product = Product('Producto 1', 'Descripción del Producto 1')
+        self.product.stock = 10
+        self.product.price = 50.0
+
+    def test_cart_buy_with_invalid_quantity_returns_false(self):
+        cart = Cart()
+        item = Item(self.product, self.product.stock + 1)
+        cart.items.append(item)
+        self.assertFalse(cart.buy())
+
+    def test_cart_buy_with_no_items_returns_false(self):
+        cart = Cart()
+        self.assertFalse(cart.buy())
